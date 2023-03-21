@@ -24,15 +24,17 @@ int Coun_for_Q1(int m, int n)//时间复杂度大致在O(n, m^2)
         return 0;
     else
     {
-        for (int i = 1; i * 2 + n_cal <= n && move >= 1; i++)//遍历所有不超过n卡路里的组合
+        for (int i = 1; i + n_cal <= n && move >= 1 && move > i; i++)//遍历所有不超过n卡路里的组合，因为有一步减少了，所以n_cal也每次减少了一
         {
             move--;//每将1次行动改为2步，就会有一次1步的行动被取消，否则无法维护step数为m
-            int comb = 0, comb_1 = 1, comb_2 = 1;
+            int comb = 0, comb_1 = 1, comb_2 = 1, comb_3 = 1;
             for (int j = 1; j <= move; j++)
                 comb_1 *= j;
             for (int j = 1; j <= (move - i); j++)
                 comb_2 *= j;
-            comb = comb_1 / comb_2;//计算C(i,move)
+            for (int j = 1; j <= i; j++)
+                comb_3 *= j;
+            comb = comb_1 /(comb_3 * comb_2);//计算C(i,move)
             sum += comb;
         }
         return sum;
@@ -42,10 +44,13 @@ int Coun_for_Q1(int m, int n)//时间复杂度大致在O(n, m^2)
 int main() {
     int n, m;
     cin >> m >> n;
-    cout << Coun_for_Q1(m, n);
 
-    //DFS(n, m);
-    //cout << coun;
+    cout << "思路1：" << endl;
+    DFS(n, m);
+    cout << coun << endl;
+
+    cout << "思路2：" << endl;
+    cout << Coun_for_Q1(m, n) << endl;
 
     return 0;
 }

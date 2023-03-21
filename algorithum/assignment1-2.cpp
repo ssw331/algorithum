@@ -28,20 +28,22 @@ int Coun_for_Q2(int m, int n)
     else
     {
         int i = 1;
-        for (; i * 2 + n_cal <= n && move >= 1; i++)//遍历所有不超过n卡路里的组合
+        for (; i + n_cal <= n && move >= 1 && move > i; i++)//遍历所有不超过n卡路里的组合，找到最大消耗
         {
             move--;
         }
-        if (i * 2 + n_cal > n)
+        if (i + n_cal > n || move <= i)//一旦因为i退出循环就需要检测，因为for循环的逻辑结构
             i--;
-        if (move < 1)
+        if (move < 1 && move <= i)
             move++;
-        int comb = 0, comb_1 = 1, comb_2 = 1;
+        int comb = 0, comb_1 = 1, comb_2 = 1, comb_3 = 1;
         for (int j = 1; j <= move; j++)
             comb_1 *= j;
         for (int j = 1; j <= (move - i); j++)
             comb_2 *= j;
-        comb = comb_1 / comb_2;//计算C(i,m)
+        for (int j = 1; j <= i; j++)
+            comb_3 *= j;
+        comb = comb_1 / (comb_3 * comb_2);//计算C(i,move)
         return comb;
     }
 }
@@ -49,10 +51,13 @@ int Coun_for_Q2(int m, int n)
 int main() {
     int n, m;
     cin >> m >> n;
-    cout << Coun_for_Q2(m, n);
 
-    //DFS(n, m);
-    //cout << coun;
+    cout << "思路1：" << endl;
+    DFS(n, m);
+    cout << coun << endl;
+
+    cout << "思路2：" << endl;
+    cout << Coun_for_Q2(m, n) << endl;
 
     return 0;
 }
