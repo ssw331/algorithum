@@ -15,7 +15,7 @@ void DFS(int n, int m, int cal = 0, int step = 0)//时间复杂度到了指数
     }
 }
 
-int Coun_for_Q1(int m, int n)//时间复杂度大致在O(n, m^2)
+int Coun_for_Q1(int m, int n)//时间复杂度大致在O(nm, m^2)
 {
     int n_cal = m;//总会存在的最优解（即卡路里消耗最小的解——每次只走1步）
     int move = m;//此时有m次行动
