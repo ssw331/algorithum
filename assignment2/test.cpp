@@ -11,21 +11,52 @@ using namespace std;
 
 bool searchMatrix(vector<vector<int> >& matrix, int target){
         //TODO
-	// mlogn
 	int m = matrix.size(), n = matrix[0].size();
-	for (int i = 0; i < m; i++)
+	int s_m = m - 1, s_n = 0;
+	while (s_m >= 0 && s_n < n)
 	{
-		int l_n = 0, r_n = n - 1, mid_n = (l_n + r_n) / 2;
-		while (matrix[i][mid_n] != target && l_n <= r_n)
-		{
-			if (target > matrix[i][mid_n])
-				l_n = mid_n + 1;//!
-			else
-				r_n = mid_n - 1;//!
-			mid_n = (l_n + r_n) / 2;
-		}
-		if (matrix[i][mid_n] == target)
+		if (matrix[s_m][s_n] > target)
+			s_m--;
+		else if (matrix[s_m][s_n] < target)
+			s_n++;
+		else
 			return 1;
+	}
+	return 0;
+	int l_m = 0, r_m = m - 1, mid_m = r_m;
+	int l_n = 0, r_n = n - 1, mid_n = (l_n + r_n) / 2;
+	while (mid_n < n && mid_m >= 0)
+	{
+		while (matrix[mid_m][mid_n] > target && mid_m >=0)
+		{
+			r_n = mid_n - 1;
+			mid_n = (l_n + r_n) / 2;
+			if (l_n > r_n && mid_m > 0)
+				mid_m--, r_n = n - 1;
+			else if (mid_m <= 0)
+				return 0;
+		}
+		if (matrix[mid_m][mid_n] == target)
+			return 1;
+		else
+			mid_n++, l_n = mid_n;
+		if (mid_n >= n - 1)
+			return 0;
+		while (matrix[mid_m][mid_n] < target && mid_n < n)
+		{
+			l_m = mid_m + 1;
+			mid_m = (l_m + r_m) / 2;
+			if (l_m > r_m && mid_n < n - 1)
+				mid_n++, l_m = 0;
+			else if (mid_n >= n - 1)
+				return 0;
+		}
+		if (matrix[mid_m][mid_n] == target)
+			return 1;
+		else
+			mid_m--, r_m = mid_m;
+		if (mid_m <= 0)
+			return 0;
 	}
 	return 0;
 	//Ë«ÖØÕÛ°ë²éÕÒ
