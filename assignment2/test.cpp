@@ -16,12 +16,12 @@ bool searchMatrix(vector<vector<int> >& matrix, int target){
 	for (int i = 0; i < m; i++)
 	{
 		int l_n = 0, r_n = n - 1, mid_n = (l_n + r_n) / 2;
-		while (matrix[i][mid_n] != target && l_n <= r_n && l_n != mid_n)
+		while (matrix[i][mid_n] != target && l_n <= r_n)
 		{
 			if (target > matrix[i][mid_n])
-				l_n = mid_n;
+				l_n = mid_n + 1;//!
 			else
-				r_n = mid_n;
+				r_n = mid_n - 1;//!
 			mid_n = (l_n + r_n) / 2;
 		}
 		if (matrix[i][mid_n] == target)
